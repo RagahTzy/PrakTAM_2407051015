@@ -4,72 +4,51 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.praktam_npm.model.PokemonSource
 import com.example.praktam_npm.ui.theme.PrakTAM_NPMTheme
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            HeroScreen()
+            PrakTAM_NPMTheme{
+                HeroScreen()
+            }
         }
     }
 }
 
 @Composable
 fun HeroScreen() {
-    val hero = PokemonSource.dummyPokemon
+    val heroes = PokemonSource.dummyPokemon
 
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        items(hero) { pokemon ->
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 12.dp)
-            ) {
-                Row(
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = pokemon.image),
-                        contentDescription = pokemon.name,
-                        modifier = Modifier.size(80.dp)
-                    )
 
-                    Spacer(modifier = Modifier.width(16.dp))
+        heroes.forEach { pokemon ->
 
-                    Column {
-                        Text(
-                            text = pokemon.name,
-                            fontSize = 20.sp
-                        )
-                        Text(
-                            text = "ID: ${pokemon.id}"
-                        )
-                        Text(
-                            text = "Order: ${pokemon.order}"
-                        )
-                    }
-                }
-            }
+            Image(
+                painter = painterResource(id = pokemon.image),
+                contentDescription = pokemon.name,
+                modifier = Modifier.size(120.dp)
+            )
+
+            Text(text = "Name: ${pokemon.name}")
+            Text(text = "ID: ${pokemon.id}")
+            Text(text = "Order: ${pokemon.order}")
+
+            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }
