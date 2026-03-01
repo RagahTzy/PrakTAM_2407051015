@@ -45,8 +45,8 @@ fun HeroScreen() {
             )
 
             Text(text = "Name: ${pokemon.name}")
-            Text(text = "ID: ${pokemon.id}")
-            Text(text = "Order: ${pokemon.order}")
+            Text(text = "Type: ${pokemon.type}")
+            Text(text = "Order: ${pokemon.id}")
 
             Spacer(modifier = Modifier.height(24.dp))
         }
