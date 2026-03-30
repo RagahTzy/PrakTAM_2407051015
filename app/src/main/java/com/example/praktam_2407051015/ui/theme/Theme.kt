@@ -1,6 +1,5 @@
-package com.example.praktam_npm.ui.theme
+package com.example.praktam_2407051015.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

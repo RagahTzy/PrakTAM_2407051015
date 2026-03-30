@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.praktam_npm"
+    namespace = "com.example.praktam_2407051015"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -12,7 +12,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.praktam_npm"
+        applicationId = "com.example.praktam_2407051015"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

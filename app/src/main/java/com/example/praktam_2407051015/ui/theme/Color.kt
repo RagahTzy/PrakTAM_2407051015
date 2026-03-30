@@ -1,4 +1,4 @@
-package com.example.praktam_npm.ui.theme
+package com.example.praktam_2407051015.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,4 +1,4 @@
-package com.example.praktam_npm
+package com.example.praktam_2407051015
 
 import org.junit.Test
 
