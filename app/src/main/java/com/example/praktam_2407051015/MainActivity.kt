@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.praktam_2407051015.model.Pokemon
 import com.example.praktam_2407051015.model.PokemonSource
-import com.example.praktam_2407051015.ui.theme.PrakTAM_NPMTheme
+import com.example.praktam_2407051015.ui.theme.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,12 +45,12 @@ class MainActivity : ComponentActivity() {
 }
 
 fun getTypeColor(typeId: Int): Color = when (typeId) {
-    1 -> Color(0xFF78C850) // Grass
-    2 -> Color(0xFFF08030) // Fire
-    3 -> Color(0xFF6890F0) // Water
-    4 -> Color(0xFFA8B820) // Bug/Normal
-    5 -> Color(0xFFF8D030) // Electric
-    else -> Color(0xFF888888)
+    1 -> TypeGrass
+    2 -> TypeFire
+    3 -> TypeWater
+    4 -> TypeNormal
+    5 -> TypeElectric
+    else -> TypeUnknown
 }
 
 fun getPokemonType(typeId: Int): String = when (typeId) {
@@ -70,7 +70,7 @@ fun PokedexScreen(modifier: Modifier = Modifier) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFFF2F2F2)),
+            .background(MaterialTheme.colorScheme.background),
         contentPadding = PaddingValues(bottom = 24.dp)
     ) {
         item {
@@ -82,7 +82,6 @@ fun PokedexScreen(modifier: Modifier = Modifier) {
                 Text(
                     text = "⭐  Starter Pokémon",
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(bottom = 12.dp, top = 8.dp)
                 )
                 LazyRow(
@@ -97,7 +96,6 @@ fun PokedexScreen(modifier: Modifier = Modifier) {
                 Text(
                     text = "📋  Semua Pokémon",
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
             }
@@ -120,7 +118,10 @@ fun PokedexHeader() {
             .height(130.dp)
             .background(
                 brush = Brush.horizontalGradient(
-                    colors = listOf(Color(0xFFCC0000), Color(0xFFFF6B6B))
+                    colors = listOf(
+                        MaterialTheme.colorScheme.primary,
+                        MaterialTheme.colorScheme.tertiary
+                    )
                 )
             )
     ) {
@@ -144,15 +145,13 @@ fun PokedexHeader() {
         ) {
             Text(
                 text = "Pokédex",
-                color = Color.White,
-                fontSize = 28.sp,
-                fontWeight = FontWeight.ExtraBold,
-                letterSpacing = 1.sp
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onPrimary
             )
             Text(
                 text = "${PokemonSource.dummyPokemon.size} Pokémon terdaftar",
-                color = Color.White.copy(alpha = 0.85f),
-                fontSize = 13.sp
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.85f)
             )
         }
     }
@@ -168,7 +167,9 @@ fun FeaturedPokemonCard(pokemon: Pokemon) {
             .height(180.dp),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = typeColor.copy(alpha = 0.15f))
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        )
     ) {
         Column(
             modifier = Modifier
@@ -183,9 +184,8 @@ fun FeaturedPokemonCard(pokemon: Pokemon) {
             ) {
                 Text(
                     text = getPokemonType(pokemon.type),
-                    color = Color.White,
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Bold
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.White
                 )
             }
 
@@ -194,8 +194,7 @@ fun FeaturedPokemonCard(pokemon: Pokemon) {
             Image(
                 painter = painterResource(id = pokemon.image),
                 contentDescription = pokemon.name,
-                modifier = Modifier
-                    .size(70.dp),
+                modifier = Modifier.size(70.dp),
                 contentScale = ContentScale.Fit
             )
 
@@ -203,14 +202,13 @@ fun FeaturedPokemonCard(pokemon: Pokemon) {
 
             Text(
                 text = pokemon.name,
-                fontWeight = FontWeight.Bold,
-                fontSize = 13.sp,
-                color = Color(0xFF222222)
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 text = "#${String.format("%03d", pokemon.id)}",
-                fontSize = 11.sp,
-                color = Color(0xFF888888)
+                style = MaterialTheme.typography.bodySmall,
+                color = PokedexGray
             )
         }
     }
@@ -225,7 +223,9 @@ fun PokemonDetailCard(pokemon: Pokemon, modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        )
     ) {
         Row(
             modifier = Modifier
@@ -233,6 +233,7 @@ fun PokemonDetailCard(pokemon: Pokemon, modifier: Modifier = Modifier) {
                 .padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            // Gambar Pokémon
             Box(
                 modifier = Modifier
                     .size(90.dp)
@@ -255,14 +256,13 @@ fun PokemonDetailCard(pokemon: Pokemon, modifier: Modifier = Modifier) {
                     Text(
                         text = pokemon.name,
                         style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = Color(0xFF1A1A2E)
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
                         text = "#${String.format("%03d", pokemon.id)}",
-                        fontSize = 12.sp,
-                        color = Color(0xFF999999)
+                        style = MaterialTheme.typography.bodySmall,
+                        color = PokedexGray
                     )
                 }
 
@@ -275,31 +275,32 @@ fun PokemonDetailCard(pokemon: Pokemon, modifier: Modifier = Modifier) {
                 ) {
                     Text(
                         text = getPokemonType(pokemon.type),
-                        color = Color.White,
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold
+                        style = MaterialTheme.typography.labelSmall,
+                        color = Color.White
                     )
                 }
 
                 Spacer(modifier = Modifier.height(6.dp))
 
-                StatRow(label = "HP", value = pokemon.hp, maxValue = 100, color = Color(0xFF4CAF50))
+                StatRow(label = "HP",  value = pokemon.hp,     maxValue = 100, color = StatHpGreen)
                 Spacer(modifier = Modifier.height(3.dp))
-                StatRow(label = "ATK", value = pokemon.attack, maxValue = 100, color = Color(0xFFFF5722))
+                StatRow(label = "ATK", value = pokemon.attack, maxValue = 100, color = StatAtkOrange)
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Button(
                     onClick = {},
                     shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = typeColor),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary
+                    ),
                     contentPadding = PaddingValues(horizontal = 14.dp, vertical = 6.dp),
                     modifier = Modifier.height(32.dp)
                 ) {
                     Text(
                         text = "See Details",
                         style = MaterialTheme.typography.labelSmall,
-                        color = Color.White
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 }
             }
@@ -311,7 +312,7 @@ fun PokemonDetailCard(pokemon: Pokemon, modifier: Modifier = Modifier) {
                 Icon(
                     imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                     contentDescription = "Favorite",
-                    tint = if (isFavorite) Color(0xFFE53935) else Color(0xFFBBBBBB),
+                    tint = if (isFavorite) MaterialTheme.colorScheme.primary else PokedexLightGray,
                     modifier = Modifier.size(22.dp)
                 )
             }
@@ -327,16 +328,16 @@ fun StatRow(label: String, value: Int, maxValue: Int, color: Color) {
     ) {
         Text(
             text = label,
-            fontSize = 10.sp,
+            style = MaterialTheme.typography.bodySmall,
             fontWeight = FontWeight.Bold,
-            color = Color(0xFF888888),
+            color = PokedexGray,
             modifier = Modifier.width(28.dp)
         )
         Text(
             text = "$value",
-            fontSize = 10.sp,
+            style = MaterialTheme.typography.bodySmall,
             fontWeight = FontWeight.Bold,
-            color = Color(0xFF444444),
+            color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.width(24.dp)
         )
         LinearProgressIndicator(
@@ -346,7 +347,7 @@ fun StatRow(label: String, value: Int, maxValue: Int, color: Color) {
                 .weight(1f)
                 .clip(RoundedCornerShape(3.dp)),
             color = color,
-            trackColor = Color(0xFFEEEEEE)
+            trackColor = PokedexLightGray
         )
     }
 }
